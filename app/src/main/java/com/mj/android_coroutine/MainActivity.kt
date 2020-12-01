@@ -40,7 +40,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
+    /**
+     * 코루틴은 스레드가 아니지만, 비동기로 실행되고 기본적으로 Activity 가 종료되어도 계속해서 동작한다.
+     *
+     * 별도의 처리가 필요하다.
+     */
 
     private fun coroutineAsyncTest(){
 
@@ -50,9 +54,30 @@ class MainActivity : AppCompatActivity() {
             //화면이 바꿔어도 코루틴내에 동작은 유지딘다.
             delay(5000L)
             Log.d(TAG,"coroutineAsyncTest in Coroutine wait for 5 sec")
+
+            makeLog()
         }
 
         Log.d(TAG,"coroutineAsyncTest after coroutine")
+
+
+    }
+
+    /**
+     * 코루틴 안에서 일반적인 메소드는 호출이 불가하다.
+     *
+     * 그 이유는 코루틴이 스레드를 바꿔가며 작업할 수도 있기 때문에 실행을 멈추거나 다시 실행될 수 있기 때문이다.
+     *
+     * 코루틴 전용 메소드를 만들기 위해서는 suspend 키워드를 붙여주면 된다.
+     *
+     * 또한 suspend 함수 내에서는 새로운 코루틴을 만들수도 있다.
+     */
+    private suspend fun makeLog(){
+
+        GlobalScope.launch {
+            Log.d(TAG, "make debug log with suspend function")
+        }
+
     }
 
 
@@ -79,7 +104,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // 실행 명령어 launch 블록 안에서의 예외 처리 예시
+    /**
+     * 실행 명령어 launch 블록 안에서의 예외 처리 예시
+     */
     private fun launchHandleCoroutineException(){
 
         GlobalScope.launch(Dispatchers.IO + handler){
@@ -87,7 +114,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // 실행 명령어 async 나 withContext 를 사용하는 경우의 예외 처리 예시
+    /**
+     * 실행 명령어 async 나 withContext 를 사용하는 경우의 예외 처리 예시
+     *
+     * async 와 withContext 는 동일하게 결과를 리턴하는 키워드이다.
+     *
+     * 차이점은 async 에서는 await() 에소드를 호출해야하지만, withContext 는 생략할 수 있다.
+     */
+    //
     private fun asyncOrWithContextHandleCoroutineException(){
 
         GlobalScope.launch(Dispatchers.IO){
