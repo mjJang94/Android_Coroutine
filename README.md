@@ -5,7 +5,7 @@ implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
 </code>
 </pre>
 
-## 코루틴 탐구 개요
+## 개요
 - 코루틴이란 무엇인지 알아본다.
 - 코루틴 실행 명령어의 종류와 차이점을 알아본다.
 - 코루틴에 종속적인 메소드를 만드는 키워드 **suspend**의 사용법을 알아본다.
